@@ -9,8 +9,10 @@ def sum_two_nums(num1: list[int], num2: list[int]) -> list[int]:
     for i in range(len(num2) - 1, -1, -1):
         n2 += num2[i] * 10 ** (len(num2) - 1 - i)
     n3 = n1 + n2
-    for i in range(len(num1) - 1, -1, -1):  # тут прикольно ржака конеч но но ну и ладно
-        num1[i] = (n3 % 10 ** (i + 1)) // 10 ** i
+    num1.clear()
+    while n3 != 0:
+        num1.append(n3 % 10)
+        n3 //= 10
     return num1[::-1]
 
 
@@ -42,8 +44,8 @@ def remove_duplicates(nums: list[int]) -> None:
 
 
 def compute_unique_pathes(grid: list[list[int]]) -> int:
-    path_grid = [[0 for _ in range(3)] for _ in range(3)]
-    path_grid[0][0] = 1
+    path_grid = [[0 for _ in range(len(grid[0]))] for _ in range(len(grid))]
+    path_grid[0][0] = 1 if len(grid) * len(grid[0]) != 1 else int(grid[0][0] != 1)
     for y in range(len(grid)):
         for x in range(len(grid[0])):
             if grid[y][x] != 1:
@@ -63,5 +65,5 @@ def jump(jumps: list[int]) -> int:
     for i in range(len(jumps)):
         for x in range(prev_mx_dist, min(i + jumps[i] + 1, len(jumps))):
             jumps_amount[x] = min(jumps_amount[x], jumps_amount[i] + 1)
-        prev_mx_dist = min(i + jumps[i], len(jumps)-1)
+        prev_mx_dist = min(i + jumps[i], len(jumps) - 1)
     return jumps_amount[-1] if jumps_amount[-1] != float('inf') else -1
